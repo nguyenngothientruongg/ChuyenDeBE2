@@ -8,6 +8,18 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
+    public function removeProduct($id)
+    {
+        $cartItem = Cart::find($id); // Tìm sản phẩm trong giỏ hàng bằng ID
+
+        if ($cartItem) {
+            $cartItem->delete(); // Xóa sản phẩm
+            return response()->json(['success' => true]); // Trả về phản hồi JSON thành công
+        }
+
+        return response()->json(['success' => false], 404); // Nếu không tìm thấy, trả về 404 
+    }
+
     // Các phương thức của controller
     public function getListCart()
     {
