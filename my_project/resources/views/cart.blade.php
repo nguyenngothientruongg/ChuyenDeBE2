@@ -254,7 +254,7 @@
                             <button class="qty-btn increase" onclick="updateQuantity({{ $cart->id }}, 1)">+</button>
                         </div>
 
-                        <button class="delete-btn" onclick="deleteCartItem({{ $cart->id }})">Xoá</button> <!-- Add delete functionality -->
+                        <button class="delete-btn" onclick="deleteCartItem({id }})">Xoá</button> <!-- Add delete functionality -->
                     </div>
                 </div>
             @endforeach

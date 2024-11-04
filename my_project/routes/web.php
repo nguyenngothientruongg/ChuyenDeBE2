@@ -17,6 +17,6 @@ use App\Http\Controllers\ProductController;
 Route::get('/', function () {
     return view('cart');
 });
-Route::get('/cart', [ProductController::class, 'getListCart'])->name('cart.list');
+Route::get('', [ProductController::class, 'getListCart'])->name('cart.list');
 Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.show');
 
