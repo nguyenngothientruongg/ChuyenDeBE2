@@ -32,4 +32,13 @@ class ProductController extends Controller
         $product = Product::findOrFail($id); // Lấy sản phẩm theo ID
         return view('product.show', compact('product')); // Trả về view với sản phẩm
     }
+    // Trong Controller của bạn
+public function showCart()
+{
+
+    $selectedProducts = Cart::with('product')->get(); 
+
+    return view('cart.index', compact('selectedProducts'));
+}
+
 }
