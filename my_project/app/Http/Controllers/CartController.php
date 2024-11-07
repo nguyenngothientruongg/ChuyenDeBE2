@@ -40,7 +40,10 @@ class CartController extends Controller
                 $cartItem->delete();
     
                 return response()->json(['message' => 'Sản phẩm đã bị xóa khỏi giỏ hàng'], 200);
+                
             }
+
+            
         }
     
         return response()->json(['error' => 'Không tìm thấy sản phẩm'], 404);

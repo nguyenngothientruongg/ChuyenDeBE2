@@ -8,6 +8,21 @@ use App\Models\Product;
 
 class ProductController extends Controller
 {
+
+    public function submitForm(Request $request)
+    {
+        // Validate the form data
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'phone' => 'required|regex:/^[0-9]{10}$/', // Assuming phone number is 10 digits
+            'address1' => 'required|string|max:255',
+            'address2' => 'required|string|max:255',
+            'payment_method' => 'required|string'
+        ]);
+
+        // Process the data if validation passes
+        // Save or use the data as needed
+    }
     public function removeProduct($id)
     {
         $cartItem = Cart::find($id); // Tìm sản phẩm trong giỏ hàng bằng ID

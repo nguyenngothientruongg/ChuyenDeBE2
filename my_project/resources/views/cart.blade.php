@@ -89,19 +89,20 @@
                     <div class="form-section">
                         <div class="form-group">
                             <label>Liên Hệ</label>
-                            <input type="text" class="form-input" placeholder="Họ Và Tên">
-                            <input type="tel" class="form-input" placeholder="Số Điện Thoại">
+                            <input type="text" class="form-input" placeholder="Họ Và Tên" id="name" required autofocus>
+                            <input type="tel" class="form-input" placeholder="Số Điện Thoại" id="phone">
                         </div>
 
                         <div class="form-group">
                             <label>Địa Chỉ</label>
-                            <input type="text" class="form-input" placeholder="Tỉnh/Thành phố, Quận/huyện, Phường/Xã">
-                            <input type="text" class="form-input" placeholder="Tên đường, Số nhà">
+                            <input type="text" class="form-input" placeholder="Tỉnh/Thành phố, Quận/huyện, Phường/Xã" id="address1">
+                            <input type="text" class="form-input" placeholder="Tên đường, Số nhà" id="address2">
                         </div>
 
                         <div class="form-group">
                             <label>Phương Thức Thanh Toán</label>
-                            <select class="form-input">
+                            <select class="form-input" id="payment-method">
+                                <option value="">Chọn phương thức thanh toán</option>
                                 <option>Thanh Toán Khi Nhận Hàng</option>
                                 <option>Chuyển Khoản Ngân Hàng 24/7</option>
                             </select>
@@ -175,13 +176,13 @@
 
 
 
+    
 
 
 
 
 
-
-
+    
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -197,6 +198,24 @@
             const buyButton = document.getElementById('buyButton');
             const successPopup = document.getElementById('successPopup');
             const closeSuccessPopupButton = document.querySelector('.close-success-popup');
+
+
+            function validateForm() {
+                let name = document.getElementById("name").value;
+                let phone = document.getElementById("phone").value;
+                let address1 = document.getElementById("address1").value;
+                let address2 = document.getElementById("address2").value;
+                let paymentMethod = document.getElementById("payment-method").value;
+
+                // Check if all required fields are filled
+                if (!name || !phone || !address1 || !address2 || !paymentMethod) {
+                    alert("Vui lòng điền đầy đủ thông tin!");
+                    return false; // Prevent form submission
+                } else {
+                    return true;
+                    // You can proceed with form submission here
+                }
+            }
 
             async function deleteProduct(productId) {
                 try {
@@ -233,25 +252,30 @@
 
 
             buyButton.addEventListener('click', function() {
-                if (selectedProductListData.length > 0) {
-                    // Lặp qua từng sản phẩm trong danh sách và xóa số lượng
-                    selectedProductListData.forEach(product => {
-                        deleteProductQuantity(product.id, product.quantity);
-                    });
 
-                    // Đóng popup thanh toán và hiển thị popup thành công
-                    popup.style.display = 'none';
-                    successPopup.style.display = 'flex';
-                } else {
-                    alert("Vui lòng chọn một sản phẩm để thanh toán.");
+                if (validateForm()) {
+                    if (selectedProductListData.length > 0) {
+                        // Lặp qua từng sản phẩm trong danh sách và xóa số lượng
+                        selectedProductListData.forEach(product => {
+                            deleteProductQuantity(product.id, product.quantity);
+                        });
+
+                    
+                        // Đóng popup thanh toán và hiển thị popup thành công
+                        popup.style.display = 'none';
+                        successPopup.style.display = 'flex';
+                        
+                        
+                    } else {
+                        alert("Vui lòng chọn một sản phẩm để thanh toán.");
+                    }
                 }
             });
 
 
             // Close the success popup when clicking the close button
             closeSuccessPopupButton.addEventListener('click', function() {
-                successPopup.style.display = 'none';
-                document.body.style.overflow = 'auto'; // Restore scrolling
+                window.location.reload();
             });
 
             // Close the success popup when clicking outside the content
