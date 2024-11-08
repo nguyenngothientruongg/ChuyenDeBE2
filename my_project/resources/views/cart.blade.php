@@ -199,26 +199,6 @@
             const successPopup = document.getElementById('successPopup');
             const closeSuccessPopupButton = document.querySelector('.close-success-popup');
 
-            function updateTotal() {
-                // Add logic to calculate total based on selected items
-                // This is a placeholder - implement actual calculation
-                let total = 0;
-                checkboxes.forEach(checkbox => {
-                    
-                    if (checkbox.checked) {
-                        
-                        // Add product price to total
-                        const productPrice = checkbox.getAttribute('data-price');
-                        const productQuantity = checkbox.getAttribute('data-quantity');
-
-                        const totalPrice = productQuantity * productPrice
-                        total += totalPrice; // Replace with actual price
-                    }
-                });
-                document.querySelector('.total-info').innerHTML = 
-                    `Vui lòng chọn sản phẩm !<br>Tổng thanh toán: ${total.toLocaleString()} đ`;
-            }
-
 
             function validateForm() {
                 let name = document.getElementById("name").value;
@@ -315,64 +295,64 @@
 
 
             checkoutButton.addEventListener('click', function() {
-    const selectedProducts = document.querySelectorAll('.product-checkbox:checked');
-    let totalPrice = 0; // Tổng giá sản phẩm
-    const selectedProductList = document.querySelector('.selected-product-list');
-    selectedProductList.innerHTML = ''; // Xóa danh sách sản phẩm đã chọn trước đó
+            const selectedProducts = document.querySelectorAll('.product-checkbox:checked');
+            let totalPrice = 0; // Tổng giá sản phẩm
+            const selectedProductList = document.querySelector('.selected-product-list');
+            selectedProductList.innerHTML = ''; // Xóa danh sách sản phẩm đã chọn trước đó
 
-    // Khởi tạo lại danh sách sản phẩm đã chọn
-    selectedProductListData = [];
+            // Khởi tạo lại danh sách sản phẩm đã chọn
+            selectedProductListData = [];
 
-    // Kiểm tra xem có sản phẩm nào được chọn không
-    if (selectedProducts.length > 0) {
-        // Lặp qua từng sản phẩm đã chọn
-        selectedProducts.forEach(selectedProduct => {
-            const productId = selectedProduct.getAttribute('data-id');
-            const productName = selectedProduct.getAttribute('data-name');
-            const productPrice = parseFloat(selectedProduct.getAttribute('data-price'));
-            const productQuantity = parseInt(selectedProduct.getAttribute('data-quantity'));
-            const productImage = selectedProduct.getAttribute('data-image');
+            // Kiểm tra xem có sản phẩm nào được chọn không
+            if (selectedProducts.length > 0) {
+                // Lặp qua từng sản phẩm đã chọn
+                selectedProducts.forEach(selectedProduct => {
+                    const productId = selectedProduct.getAttribute('data-id');
+                    const productName = selectedProduct.getAttribute('data-name');
+                    const productPrice = parseFloat(selectedProduct.getAttribute('data-price'));
+                    const productQuantity = parseInt(selectedProduct.getAttribute('data-quantity'));
+                    const productImage = selectedProduct.getAttribute('data-image');
 
-            // Tính tổng giá sản phẩm
-            const productTotalPrice = productQuantity * productPrice;
-            totalPrice += productTotalPrice; // Cộng dồn vào tổng giá
+                    // Tính tổng giá sản phẩm
+                    const productTotalPrice = productQuantity * productPrice;
+                    totalPrice += productTotalPrice; // Cộng dồn vào tổng giá
 
-            // Lưu sản phẩm vào danh sách đã chọn
-            selectedProductListData.push({
-                id: productId,
-                quantity: productQuantity
-            });
+                    // Lưu sản phẩm vào danh sách đã chọn
+                    selectedProductListData.push({
+                        id: productId,
+                        quantity: productQuantity
+                    });
 
-            // Tạo phần tử cho sản phẩm đã chọn
-            const productItem = document.createElement('div');
-            productItem.classList.add('selected-product');
-            productItem.innerHTML = `
-                <img src="${productImage}" alt="${productName}" class="summary-image popup-product-image">
-                <div class="product-details">
-                    <h3 class="popup-product-name">${productName}</h3>
-                    <p class="popup-product-quantity">Số lượng: <span class="quantity">${productQuantity}</span></p>
-                    <p class="popup-product-price">Giá: <span class="price">${productTotalPrice.toLocaleString()} đ</span></p>
-                </div>
-            `;
+                    // Tạo phần tử cho sản phẩm đã chọn
+                    const productItem = document.createElement('div');
+                    productItem.classList.add('selected-product');
+                    productItem.innerHTML = `
+                        <img src="${productImage}" alt="${productName}" class="summary-image popup-product-image">
+                        <div class="product-details">
+                            <h3 class="popup-product-name">${productName}</h3>
+                            <p class="popup-product-quantity">Số lượng: <span class="quantity">${productQuantity}</span></p>
+                            <p class="popup-product-price">Giá: <span class="price">${productTotalPrice.toLocaleString()} đ</span></p>
+                        </div>
+                    `;
 
-            selectedProductList.appendChild(productItem); // Thêm sản phẩm vào danh sách
+                    selectedProductList.appendChild(productItem); // Thêm sản phẩm vào danh sách
+                });
+
+                // Cập nhật tổng giá vào giao diện
+                const totalElement = document.querySelectorAll('.popup-product-price');
+                totalElement.textContent = `Giá: ${totalPrice.toLocaleString()} đ`;
+
+                // Hiển thị popup và khóa cuộn trang
+                popup.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+
+                // Cập nhật tổng thanh toán trong footer
+                document.querySelector('.total-price').innerHTML =
+                    `Tổng thanh toán: ${totalPrice.toLocaleString()} VNĐ`;
+            } else {
+                alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán.");
+            }
         });
-
-        // Cập nhật tổng giá vào giao diện
-        const totalElement = document.querySelectorAll('.popup-product-price');
-        totalElement.textContent = `Giá: ${totalPrice.toLocaleString()} đ`;
-
-        // Hiển thị popup và khóa cuộn trang
-        popup.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-
-        // Cập nhật tổng thanh toán trong footer
-        document.querySelector('.total-price').innerHTML =
-            `Tổng thanh toán: ${totalPrice.toLocaleString()} VNĐ`;
-    } else {
-        alert("Vui lòng chọn ít nhất một sản phẩm để thanh toán.");
-    }
-});
 
 
 
@@ -492,11 +472,10 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle checkboxes
+        
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(checkbox => {
-              //  checkbox.addEventListener('change', updateTotal);
+                checkbox.addEventListener('change', updateTotal);
             });
 
             // Handle pagination
@@ -515,22 +494,25 @@
             function updateTotal() {
                 // Add logic to calculate total based on selected items
                 // This is a placeholder - implement actual calculation
+                console.log("goi ham");
                 let total = 0;
                 checkboxes.forEach(checkbox => {
-
+                    console.log("goi ham thu 1");
                     if (checkbox.checked) {
                         // Add product price to total
+                        console.log("goi ham thu 2");
                         const productPrice = checkbox.getAttribute('data-price');
                         const productQuantity = checkbox.getAttribute('data-quantity');
 
                         const totalPrice = productQuantity * productPrice
                         total += totalPrice; // Replace with actual price
                     }
+                    console.log("goi ham thu 3"+total);
                 });
-                document.querySelector('.total-price').innerHTML =
-                    `Tổng thanh toán: ${total.toLocaleString()} VNĐ`;
+                document.querySelector('.total-info').innerHTML = 
+                `Vui lòng chọn sản phẩm !<br>Tổng thanh toán: ${total.toLocaleString()} VNĐ`;
             }
-        });
+   
 
 
 
