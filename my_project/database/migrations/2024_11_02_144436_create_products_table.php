@@ -6,21 +6,29 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateProductsTable extends Migration
 {
-    public function up()
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_type');
-            $table->string('name');  // Tên sản phẩm
-            $table->string('image')->nullable();  // Anh san pham
-            $table->text('description');  // Mô tả sản phẩm
-            $table->integer('price');  // Giá sản phẩm
-            $table->integer('quantity');  // Số lượng sản phẩm
-            $table->timestamps();  // Thời gian tạo và cập nhật
+            $table->foreignId('id_type')->constrained('type_products');
+            $table->string('name');
+            $table->text('description');
+            $table->decimal('unit_price', 10, 2);
+            $table->decimal('promotion_price', 10, 2);
+            $table->string('image');
+            $table->integer('new')->default(0);
+            $table->integer('quantity')->default(0);
+            $table->timestamps(); // created_at, updated_at
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('products');
     }

@@ -8,24 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+    protected $fillable = ['name', 'id_type', 'description', 'price', 'promotion_price', 'image', 'new', 'quantity'];
 
-    // Khai báo tên bảng nếu không tuân theo quy tắc đặt tên
-    protected $table = 'products';
-
-    // Các thuộc tính có thể gán hàng loạt
-    protected $fillable = [
-        'id_type',
-        'name',
-        'description',
-        'price',
-        'quantity',
-        'image',
-    ];
-
-    // Các mối quan hệ nếu cần
-    // Ví dụ: Mối quan hệ với Cart
-    public function carts()
+    public function typeProduct()
     {
-        return $this->hasMany(Cart::class);
+        return $this->belongsTo(TypeProduct::class, 'id_type'); // Use id_type as the foreign key
     }
 }
