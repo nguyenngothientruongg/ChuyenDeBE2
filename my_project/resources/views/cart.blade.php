@@ -199,6 +199,26 @@
             const successPopup = document.getElementById('successPopup');
             const closeSuccessPopupButton = document.querySelector('.close-success-popup');
 
+            function updateTotal() {
+                // Add logic to calculate total based on selected items
+                // This is a placeholder - implement actual calculation
+                let total = 0;
+                checkboxes.forEach(checkbox => {
+                    
+                    if (checkbox.checked) {
+                        
+                        // Add product price to total
+                        const productPrice = checkbox.getAttribute('data-price');
+                        const productQuantity = checkbox.getAttribute('data-quantity');
+
+                        const totalPrice = productQuantity * productPrice
+                        total += totalPrice; // Replace with actual price
+                    }
+                });
+                document.querySelector('.total-info').innerHTML = 
+                    `Vui lòng chọn sản phẩm !<br>Tổng thanh toán: ${total.toLocaleString()} đ`;
+            }
+
 
             function validateForm() {
                 let name = document.getElementById("name").value;
